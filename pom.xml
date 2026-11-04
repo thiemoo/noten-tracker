@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.notentracker</groupId>
+    <artifactId>noten-tracker</artifactId>
+    <version>1.0.0</version>
+    <name>Noten-Tracker</name>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JavaFX 23: läuft mit Java 21 und kann das Hell/Dunkel-Schema von Windows auslesen -->
+        <javafx.version>23.0.2</javafx.version>
+        <pdfbox.version>3.0.3</pdfbox.version>
+        <sqlite.version>3.46.1.3</sqlite.version>
+        <junit.version>5.11.3</junit.version>
+
+        <main.class>de.notentracker.Launcher</main.class>
+    </properties>
+
+    <dependencies>
+        <!-- UI -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <!-- PDF-Import -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+
+        <!-- Lokale Datenbank -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>${sqlite.version}</version>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+            </plugin>
+
+            <!-- Starten per "mvn javafx:run" -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${main.class}</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <!--
+            Windows-App mit jpackage bauen:   mvn clean package -P exe
+            Ergebnis: target/jpackage/dist/NotenTracker/NotenTracker.exe (mit eigener Java-Laufzeit, ohne Installation)
+
+            Zusätzlich ein Setup-Programm:    mvn clean package -P exe,installer
+            Braucht das WiX Toolset (https://wixtoolset.org) im PATH.
+        -->
+        <profile>
+            <id>exe</id>
+            <properties>
+                <jpackage.type>app-image</jpackage.type>
+                <jpackage.installerArgs/>
+                <jpackage.input>${project.build.directory}/jpackage/input</jpackage.input>
+                <!-- Von der App benötigte JDK-Module; jdk.localedata für deutsche Zahlen- und Datumsformate -->
+                <jpackage.modules>java.base,java.desktop,java.logging,java.naming,java.sql,java.xml,jdk.jfr,jdk.unsupported,jdk.localedata</jpackage.modules>
+            </properties>
+            <build>
+                <plugins>
+                    <!-- 1. Alle Bibliotheken in einen Ordner kopieren ... -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.7.0</version>
+                        <executions>
+                            <execution>
+                                <id>copy-libraries</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${jpackage.input}</outputDirectory>
+                                    <includeScope>runtime</includeScope>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 2. ... zusammen mit dem eigenen JAR ... -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-app-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${jpackage.input}</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <includes>
+                                                <include>${project.build.finalName}.jar</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 3. ... und mit jpackage zu einer Windows-App mit eigener Java-Laufzeit bündeln. -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>3.5.0</version>
+                        <executions>
+                            <execution>
+                                <id>jpackage</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${java.home}/bin/jpackage</executable>
+                                    <commandlineArgs>--type ${jpackage.type} --name NotenTracker --app-version ${project.version} --vendor "Noten-Tracker" --description "Noten-Tracker fürs Studium" --input "${jpackage.input}" --main-jar ${project.build.finalName}.jar --main-class ${main.class} --icon "${project.basedir}/src/main/packaging/icon.ico" --add-modules ${jpackage.modules} --jlink-options "--strip-debug --no-man-pages --no-header-files --include-locales=de,en" --dest "${project.build.directory}/jpackage/dist" ${jpackage.installerArgs}</commandlineArgs>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>installer</id>
+            <properties>
+                <jpackage.type>exe</jpackage.type>
+                <jpackage.installerArgs>--win-menu --win-shortcut --win-dir-chooser --win-per-user-install --win-upgrade-uuid 6f1c2a52-3b7e-4d8a-9f0e-2c5b8e7d4a13</jpackage.installerArgs>
+            </properties>
+        </profile>
+    </profiles>
+</project>

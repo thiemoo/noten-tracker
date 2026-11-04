@@ -1,0 +1,743 @@
+/*
+ * Noten-Tracker – Design.
+ * Alle Farben stehen als Variablen in .root (hell) und .root.dark (dunkel). Darunter wird nur noch
+ * mit diesen Rollen gearbeitet – Farben also nur hier oben ändern.
+ */
+
+/* ======================================================================== Farben: hell */
+
+.root {
+    -nt-bg: #f4f5f8;
+    -nt-sidebar: #ffffff;
+    -nt-surface: #ffffff;
+    -nt-surface-2: #f2f4f7;
+    -nt-surface-hover: #f7f8fa;
+    -nt-border: #e5e7eb;
+    -nt-border-soft: #f0f1f4;
+    -nt-text: #111827;
+    -nt-text-2: #4b5563;
+    -nt-muted: #8a919e;
+    -nt-accent: #4f6ef7;
+    -nt-accent-hover: #3d5ae6;
+    -nt-accent-soft: #eef1ff;
+    -nt-accent-text: #3b55d9;
+    -nt-on-accent: #ffffff;
+    -nt-good: #16a34a;
+    -nt-good-soft: #e7f6ec;
+    -nt-good-text: #15803d;
+    -nt-bad: #dc2626;
+    -nt-bad-soft: #fdecec;
+    -nt-bad-text: #b91c1c;
+    -nt-open-soft: #f1f2f5;
+    -nt-open-text: #6b7280;
+    -nt-warn-bg: #fff7ed;
+    -nt-warn-border: #fed7aa;
+    -nt-warn-text: #c2410c;
+    -nt-tooltip-bg: #111827;
+    -nt-tooltip-text: #f9fafb;
+    -nt-shadow: rgba(16, 24, 40, 0.06);
+
+    /* Diagramme: geprüfte Palette, Reihenfolge Blau → Orange (farbfehlsichtig-sicher) */
+    -nt-series-1: #2a78d6;
+    -nt-series-2: #eb6834;
+    -nt-series-1-soft: rgba(42, 120, 214, 0.14);
+    -nt-grid: #e9eaee;
+    -nt-axis: #d4d6db;
+    -nt-axis-text: #8a919e;
+
+    /* Standard-Steuerelemente (Modena) an die Farben anbinden */
+    -fx-background: -nt-bg;
+    -fx-control-inner-background: -nt-surface;
+    -fx-control-inner-background-alt: -nt-surface;
+    -fx-accent: -nt-accent;
+    -fx-focus-color: -nt-accent;
+    -fx-faint-focus-color: transparent;
+    -fx-text-background-color: -nt-text;
+    -fx-text-inner-color: -nt-text;
+    -fx-prompt-text-fill: -nt-muted;
+
+    -fx-font-family: "Segoe UI Variable Text", "Segoe UI", "Inter", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: -nt-bg;
+}
+
+/* ======================================================================== Farben: dunkel */
+
+.root.dark {
+    -nt-bg: #0e1015;
+    -nt-sidebar: #13161c;
+    -nt-surface: #171a21;
+    -nt-surface-2: #1f232c;
+    -nt-surface-hover: #1c2028;
+    -nt-border: #272b35;
+    -nt-border-soft: #1e2129;
+    -nt-text: #e7e9ee;
+    -nt-text-2: #a9afbb;
+    -nt-muted: #7b8291;
+    -nt-accent: #6d86ff;
+    -nt-accent-hover: #8297ff;
+    -nt-accent-soft: #232a45;
+    -nt-accent-text: #a3b1ff;
+    -nt-on-accent: #ffffff;
+    -nt-good: #4ade80;
+    -nt-good-soft: #15291d;
+    -nt-good-text: #4ade80;
+    -nt-bad: #f87171;
+    -nt-bad-soft: #351a1c;
+    -nt-bad-text: #f87171;
+    -nt-open-soft: #232730;
+    -nt-open-text: #9aa1ad;
+    -nt-warn-bg: #2b1d10;
+    -nt-warn-border: #5a3a17;
+    -nt-warn-text: #fdba74;
+    -nt-tooltip-bg: #2a2f3a;
+    -nt-tooltip-text: #f3f4f6;
+    -nt-shadow: rgba(0, 0, 0, 0.35);
+
+    /* Dunkle Stufen derselben Palette */
+    -nt-series-1: #3987e5;
+    -nt-series-2: #d95926;
+    -nt-series-1-soft: rgba(57, 135, 229, 0.20);
+    -nt-grid: #252932;
+    -nt-axis: #383c46;
+    -nt-axis-text: #7b8291;
+
+    -fx-base: #262a33;
+}
+
+/* ======================================================================== Seitenleiste */
+
+.sidebar {
+    -fx-background-color: -nt-sidebar;
+    -fx-border-color: transparent -nt-border transparent transparent;
+    -fx-padding: 22 16 20 16;
+}
+
+.brand {
+    -fx-padding: 0 4 6 4;
+}
+
+.brand-name {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-text;
+}
+
+.brand-tagline {
+    -fx-font-size: 11px;
+    -fx-text-fill: -nt-muted;
+}
+
+.nav-item {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10;
+    -fx-padding: 9 12 9 12;
+    -fx-text-fill: -nt-text-2;
+    -fx-font-size: 13.5px;
+    -fx-graphic-text-gap: 11;
+    -fx-cursor: hand;
+}
+
+.nav-item:hover {
+    -fx-background-color: -nt-surface-2;
+}
+
+.nav-item:selected {
+    -fx-background-color: -nt-accent-soft;
+    -fx-text-fill: -nt-accent-text;
+    -fx-font-weight: bold;
+}
+
+.nav-item .icon {
+    -fx-background-color: -nt-muted;
+}
+
+.nav-item:selected .icon {
+    -fx-background-color: -nt-accent-text;
+}
+
+.sidebar-label {
+    -fx-text-fill: -nt-muted;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.sidebar-box {
+    -fx-background-color: -nt-surface-2;
+    -fx-background-radius: 12;
+    -fx-padding: 12;
+}
+
+.sidebar-progress-text {
+    -fx-text-fill: -nt-text-2;
+    -fx-font-size: 12px;
+}
+
+.sidebar-box .progress-bar > .track {
+    -fx-background-color: -nt-border;
+}
+
+.segmented {
+    -fx-background-color: -nt-surface-2;
+    -fx-background-radius: 10;
+    -fx-padding: 3;
+    -fx-spacing: 2;
+}
+
+.segmented .toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 8;
+    -fx-padding: 5 4 5 4;
+    -fx-text-fill: -nt-text-2;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.segmented .toggle-button:hover {
+    -fx-text-fill: -nt-text;
+}
+
+.segmented .toggle-button:selected {
+    -fx-background-color: -nt-surface;
+    -fx-text-fill: -nt-text;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, -nt-shadow, 6, 0, 0, 1);
+}
+
+/* ======================================================================== Inhalt */
+
+.content {
+    -fx-background-color: -nt-bg;
+}
+
+.page-header {
+    -fx-padding: 26 32 2 32;
+}
+
+.page-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-text;
+}
+
+.page-subtitle {
+    -fx-text-fill: -nt-muted;
+}
+
+.page {
+    -fx-padding: 18 32 28 32;
+}
+
+.icon {
+    -fx-min-width: 16;
+    -fx-pref-width: 16;
+    -fx-max-width: 16;
+    -fx-min-height: 16;
+    -fx-pref-height: 16;
+    -fx-max-height: 16;
+    -fx-background-color: -nt-text-2;
+    -fx-scale-shape: true;
+}
+
+/* ======================================================================== Karten & Kennzahlen */
+
+.card {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 14;
+    -fx-border-color: -nt-border;
+    -fx-border-radius: 14;
+    -fx-padding: 18 20 18 20;
+    -fx-effect: dropshadow(gaussian, -nt-shadow, 16, 0, 0, 4);
+}
+
+.card-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-text;
+}
+
+.kpi-title {
+    -fx-text-fill: -nt-text-2;
+    -fx-font-size: 12.5px;
+}
+
+.kpi-value {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-text;
+}
+
+.kpi-badge {
+    -fx-background-color: -nt-accent-soft;
+    -fx-background-radius: 10;
+    -fx-min-width: 36;
+    -fx-min-height: 36;
+    -fx-max-width: 36;
+    -fx-max-height: 36;
+}
+
+.kpi-badge .icon {
+    -fx-background-color: -nt-accent-text;
+}
+
+.kpi-detail, .hint {
+    -fx-text-fill: -nt-muted;
+    -fx-font-size: 12px;
+}
+
+.progress-bar > .track {
+    -fx-background-color: -nt-surface-2;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: -nt-accent;
+    -fx-background-radius: 6;
+    -fx-background-insets: 0;
+    -fx-padding: 3.5;
+}
+
+.result-value {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-accent-text;
+}
+
+.result-value:good {
+    -fx-text-fill: -nt-good-text;
+}
+
+.result-value:bad {
+    -fx-text-fill: -nt-bad-text;
+}
+
+/* ======================================================================== Eingaben & Buttons */
+
+.text-field, .combo-box {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -nt-border;
+    -fx-border-radius: 10;
+    -fx-padding: 6 10 6 10;
+    -fx-text-fill: -nt-text;
+    -fx-prompt-text-fill: -nt-muted;
+}
+
+.combo-box {
+    -fx-padding: 2 4 2 4;
+}
+
+.combo-box > .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.text-field:focused, .combo-box:focused, .combo-box:showing {
+    -fx-border-color: -nt-accent;
+}
+
+.combo-box .list-cell {
+    -fx-text-fill: -nt-text;
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow {
+    -fx-background-color: -nt-muted;
+}
+
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -nt-border;
+    -fx-border-radius: 10;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, -nt-shadow, 16, 0, 0, 4);
+}
+
+.combo-box-popup .list-cell {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 6;
+    -fx-text-fill: -nt-text;
+    -fx-padding: 6 10 6 10;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: -nt-surface-2;
+}
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: -nt-accent-soft;
+    -fx-text-fill: -nt-accent-text;
+}
+
+.button {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 10;
+    -fx-border-color: -nt-border;
+    -fx-border-radius: 10;
+    -fx-padding: 7 14 7 14;
+    -fx-text-fill: -nt-text;
+    -fx-graphic-text-gap: 7;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -nt-surface-hover;
+}
+
+.button .icon {
+    -fx-min-width: 13;
+    -fx-pref-width: 13;
+    -fx-max-width: 13;
+    -fx-min-height: 13;
+    -fx-pref-height: 13;
+    -fx-max-height: 13;
+    -fx-background-color: -nt-text-2;
+}
+
+.button.primary,
+.dialog-pane .button:default {
+    -fx-background-color: -nt-accent;
+    -fx-border-color: -nt-accent;
+    -fx-text-fill: -nt-on-accent;
+    -fx-font-weight: bold;
+}
+
+.button.primary:hover,
+.dialog-pane .button:default:hover {
+    -fx-background-color: -nt-accent-hover;
+    -fx-border-color: -nt-accent-hover;
+}
+
+.button.primary .icon {
+    -fx-background-color: -nt-on-accent;
+}
+
+.button.danger {
+    -fx-text-fill: -nt-bad-text;
+}
+
+.button.link-button {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: -nt-accent-text;
+    -fx-padding: 2 4 2 4;
+}
+
+.button.link-button:hover {
+    -fx-underline: true;
+}
+
+.form-error {
+    -fx-text-fill: -nt-bad-text;
+}
+
+/* Kennzahlen der gefilterten Auswahl */
+.selection-bar {
+    -fx-background-color: -nt-accent-soft;
+    -fx-background-radius: 10;
+    -fx-padding: 9 12 9 14;
+}
+
+.selection-title {
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-accent-text;
+}
+
+.selection-stats {
+    -fx-text-fill: -nt-text;
+}
+
+/* ======================================================================== Tabelle */
+
+.table-view {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 14;
+    -fx-background-insets: 0;
+    -fx-border-color: -nt-border;
+    -fx-border-radius: 14;
+    -fx-padding: 6;
+}
+
+.table-view:focused {
+    -fx-background-color: -nt-surface;
+    -fx-background-insets: 0;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -nt-surface;
+    -fx-background-radius: 14 14 0 0;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent -nt-border transparent;
+    -fx-padding: 8 4 8 4;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: -nt-muted;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: center-left;
+}
+
+.table-view .column-header .arrow {
+    -fx-background-color: -nt-muted;
+}
+
+.table-view .placeholder .label {
+    -fx-text-fill: -nt-muted;
+}
+
+.table-view .corner {
+    -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: -nt-surface;
+    -fx-border-color: transparent transparent -nt-border-soft transparent;
+    -fx-cell-size: 40px;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: -nt-surface-hover;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -nt-accent-soft;
+}
+
+.table-row-cell .table-cell {
+    -fx-text-fill: -nt-text;
+    -fx-border-color: transparent;
+    -fx-padding: 0 8 0 8;
+    -fx-alignment: center-left;
+}
+
+.table-row-cell:open .table-cell {
+    -fx-text-fill: -nt-muted;
+}
+
+.table-row-cell .table-cell.center {
+    -fx-alignment: center;
+}
+
+.pill {
+    -fx-background-radius: 999;
+    -fx-padding: 2 10 2 10;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.pill-passed {
+    -fx-background-color: -nt-good-soft;
+    -fx-text-fill: -nt-good-text;
+}
+
+.pill-failed {
+    -fx-background-color: -nt-bad-soft;
+    -fx-text-fill: -nt-bad-text;
+}
+
+.pill-open {
+    -fx-background-color: -nt-open-soft;
+    -fx-text-fill: -nt-open-text;
+}
+
+/* Schlanke Scrollbalken */
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 10;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 10;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -nt-border;
+    -fx-background-radius: 6;
+    -fx-background-insets: 2;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: -nt-muted;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* ======================================================================== Tooltips & Dialoge */
+
+.tooltip {
+    -fx-background-color: -nt-tooltip-bg;
+    -fx-text-fill: -nt-tooltip-text;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 3);
+}
+
+.dialog-pane {
+    -fx-background-color: -nt-surface;
+}
+
+.dialog-pane > .content {
+    -fx-padding: 18 20 12 20;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: -nt-surface-2;
+    -fx-padding: 14 20 14 20;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -nt-text;
+}
+
+.dialog-pane > .button-bar > .container {
+    -fx-padding: 12 20 16 20;
+}
+
+/* ======================================================================== Diagramme */
+
+.chart-card {
+    -fx-padding: 18 20 10 20;
+}
+
+.chart {
+    -fx-padding: 8 4 0 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: -nt-grid;
+    -fx-stroke-dash-array: 1 0;
+}
+
+.chart-vertical-grid-lines,
+.chart-horizontal-zero-line,
+.chart-vertical-zero-line {
+    -fx-stroke: transparent;
+}
+
+.chart-alternative-row-fill,
+.chart-alternative-column-fill {
+    -fx-fill: transparent;
+    -fx-stroke: transparent;
+}
+
+.axis {
+    -fx-tick-label-fill: -nt-axis-text;
+    -fx-tick-label-font-size: 11px;
+    -fx-tick-mark-visible: false;
+}
+
+.axis:bottom {
+    -fx-border-color: -nt-axis transparent transparent transparent;
+}
+
+.axis:left {
+    -fx-border-color: transparent;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-padding: 4 0 0 0;
+}
+
+.chart-legend-item {
+    -fx-text-fill: -nt-text-2;
+}
+
+.default-color0.chart-series-line {
+    -fx-stroke: -nt-series-1;
+    -fx-stroke-width: 2px;
+}
+
+.default-color1.chart-series-line {
+    -fx-stroke: -nt-series-2;
+    -fx-stroke-width: 2px;
+}
+
+/* Punkte: gefüllt mit 2px Ring in Flächenfarbe, damit sich überlappende Punkte trennen */
+.default-color0.chart-line-symbol,
+.default-color0.chart-area-symbol {
+    -fx-background-color: -nt-surface, -nt-series-1;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 7px;
+    -fx-padding: 6px;
+}
+
+.default-color1.chart-line-symbol {
+    -fx-background-color: -nt-surface, -nt-series-2;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 7px;
+    -fx-padding: 6px;
+}
+
+.default-color0.chart-bar {
+    -fx-bar-fill: -nt-series-1;
+    -fx-background-radius: 5 5 0 0;
+}
+
+.default-color0.chart-series-area-line {
+    -fx-stroke: -nt-series-1;
+    -fx-stroke-width: 2px;
+}
+
+.default-color0.chart-series-area-fill {
+    -fx-fill: -nt-series-1-soft;
+}
+
+/* ======================================================================== Import-Vorschau */
+
+.warning-box {
+    -fx-background-color: -nt-warn-bg;
+    -fx-background-radius: 10;
+    -fx-border-color: -nt-warn-border;
+    -fx-border-radius: 10;
+    -fx-padding: 8 12 8 12;
+}
+
+.warning-box .label {
+    -fx-text-fill: -nt-warn-text;
+}
+
+.table-row-cell .table-cell.state-new {
+    -fx-text-fill: -nt-good-text;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell .table-cell.state-changed {
+    -fx-text-fill: -nt-accent-text;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell .table-cell.state-unchanged {
+    -fx-text-fill: -nt-muted;
+}
